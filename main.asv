@@ -71,8 +71,9 @@ end
 %computes the magnitude of nodal displacements
 u_total = sqrt(x_displacement.^2 + y_displacement.^2);
 
-%compute and log stresses at Gauss quadrature points
+
 for i= 1:4
     stress_result = D_matrix * compute_B_matrix(zeta_i(i), eta_j(i), x, y) * displacement;
-    fprintf("stress at (%f, %f): %f Pa,  %f Pa, and %f Pa \n",zeta_i(i), eta_j(i), stress_result(1), stress_result(2), stress_result(3));
+    fprintf("stress at (%f, %f: %f %f %f \n",zeta_i(i), eta_j(i), stress_result(1), stress_result(2), stress_result(3));
 end
+
