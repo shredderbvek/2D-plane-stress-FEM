@@ -67,6 +67,8 @@ for i= 1:8
         x_counter = x_counter + 1;
     end
 end
+%post-processing computed field variables to obtain total deformation and
+%stresses
 
 %computes the magnitude of nodal displacements
 u_total = sqrt(x_displacement.^2 + y_displacement.^2);
@@ -76,3 +78,19 @@ for i= 1:4
     stress_result = D_matrix * compute_B_matrix(zeta_i(i), eta_j(i), x, y) * displacement;
     fprintf("stress at (%f, %f): %f Pa,  %f Pa, and %f Pa \n",zeta_i(i), eta_j(i), stress_result(1), stress_result(2), stress_result(3));
 end
+
+% creates a high resolution grid over physical domain
+[xq, yq] = meshgrid(linspace(0, 2, 200), linspace(0, 1, 200));  % Finer grid for plotting
+
+% computes the total deformation over the entire domain using interpolation
+u_interp = griddata(x, y, u_total, xq, yq, 'linear');
+
+% Plots the contour for total deformation over domain
+figure;
+contourf(xq, yq, u_interp, 12, 'LineColor', 'none');  % 20 contour levels
+colorbar;
+colormap("jet");
+title('Total displacement: magnitude');
+xlabel('X');
+ylabel('Y');
+axis equal;  % Keep axis ratios correct for physical interpretation
